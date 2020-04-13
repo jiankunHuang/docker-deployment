@@ -14,6 +14,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <dockerHost>10.14.150.111:2375</dockerHost>
+        <dockerRegistryHost>10.14.150.111:5000</dockerRegistryHost>
+    </properties>
     <dependencies>
          <!-- 导入Spirng Boot  web 所需的jar包 -->
         <dependency>
@@ -71,7 +75,11 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.13</version>
                 <configuration>
-                    <imageName>dockermvc</imageName>
+                    <!--覆盖相同标签镜像-->
+                    <forceTags>true</forceTags>
+                    <imageName>akun/dockermvc:0.0.1</imageName>
+                    <baseImage>tomcat</baseImage>
+                    <dockerHost>http://${dockerHost}</dockerHost>
                     <dockerDirectory>${project.basedir}</dockerDirectory>
                     <skipDockerBuild>false</skipDockerBuild>
                     <resources>
