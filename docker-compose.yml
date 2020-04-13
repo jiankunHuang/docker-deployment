@@ -1,0 +1,38 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginxserver
+    links:
+      - tomcat:app
+    image: nginx:latest
+    ports:
+      - 80:80
+    labels:
+      - name=hjk
+      - like=food
+      - gf=gyf
+    restart: always
+    volumes:
+      - /docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - tomcat
+
+  mysql:
+    container_name: mysqlserver
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: hjk900705
+      MYSQL_ROOT_HOST: '%'
+
+  tomcat:
+    container_name: tomcatserver
+    image: tomcat:latest
+    restart: always
+    expose:
+      - 8080
+    depends_on:
+      - mysql
